@@ -21,6 +21,7 @@
     "@plait/layouts": "^0.85.0",
     "@plait/mind": "^0.85.0",
     "@plait/text-plugins": "^0.85.0",
+    "@supabase/supabase-js": "^2.57.0",
     "ahooks": "^3.8.0",
     "browser-fs-access": "^0.35.0",
     "classnames": "^2.5.1",

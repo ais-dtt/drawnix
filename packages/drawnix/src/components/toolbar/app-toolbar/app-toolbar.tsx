@@ -20,10 +20,12 @@ import { Island } from '../../island';
 import { Popover, PopoverContent, PopoverTrigger } from '../../popover/popover';
 import { useState } from 'react';
 import { CleanBoard, OpenFile, SaveAsImage, SaveToFile, Socials } from './app-menu-items';
+import { DrawingsMenuItem } from './drawings-menu-item';
 import { LanguageSwitcherMenu } from './language-switcher-menu';
 import Menu from '../../menu/menu';
 import MenuSeparator from '../../menu/menu-separator';
 import { useI18n } from '../../../i18n';
+import { useDrawingsDrawer } from '../../../hooks/use-drawings-drawer';
 
 export const AppToolbar = () => {
   const board = useBoard();
@@ -31,6 +33,11 @@ export const AppToolbar = () => {
   const container = PlaitBoard.getBoardContainer(board);
   const selectedElements = getSelectedElements(board);
   const [appMenuOpen, setAppMenuOpen] = useState(false);
+  const { openDrawer } = useDrawingsDrawer();
+  
+  const handleOpenDrawer = () => {
+    openDrawer();
+  };
   const isUndoDisabled = board.history.undos.length <= 0;
   const isRedoDisabled = board.history.redos.length <= 0;
   return (
@@ -70,6 +77,7 @@ export const AppToolbar = () => {
               <OpenFile></OpenFile>
               <SaveToFile></SaveToFile>
               <SaveAsImage></SaveAsImage>
+              <DrawingsMenuItem onOpenDrawer={handleOpenDrawer} />
               <CleanBoard></CleanBoard>
               <MenuSeparator />
               <LanguageSwitcherMenu />

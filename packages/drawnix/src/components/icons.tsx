@@ -145,6 +145,16 @@ export const StraightArrowIcon = createIcon(
   </svg>
 );
 
+export const DrawingsIcon = createIcon(
+  <svg viewBox="0 0 16 16" fill="currentColor">
+    <path d="M2 3a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H2zm0-1h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"/>
+    <path d="M4.5 7a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-7zM4 7.5A.5.5 0 0 1 4.5 7h7a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-3z"/>
+    <circle cx="6" cy="8.5" r=".5"/>
+    <circle cx="8" cy="8.5" r=".5"/>
+    <circle cx="10" cy="8.5" r=".5"/>
+  </svg>
+);
+
 export const ElbowArrowIcon = createIcon(
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1">
     <g stroke="none" fill="currentColor">
