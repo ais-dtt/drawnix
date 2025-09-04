@@ -2,7 +2,7 @@ import { PlaitBoard, PlaitElement } from '@plait/core';
 import { MIME_TYPES, VERSIONS } from '../constants';
 import { fileOpen, fileSave } from './filesystem';
 import { DrawnixExportedData, DrawnixExportedType } from './types';
-import { loadFromBlob, normalizeFile } from './blob';
+import { loadFromJSON, loadFromBlob, normalizeFile } from './blob';
 
 export const getDefaultName = () => {
   const time = new Date().getTime();
@@ -10,6 +10,14 @@ export const getDefaultName = () => {
 };
 
 export const saveAsJSON = async (
+  board: PlaitBoard,
+  name: string = getDefaultName()
+) => {
+  const serialized = serializeAsJSON(board);
+  return serialized;
+};
+
+export const saveAsFile = async (
   board: PlaitBoard,
   name: string = getDefaultName()
 ) => {
@@ -26,7 +34,11 @@ export const saveAsJSON = async (
   return { fileHandle };
 };
 
-export const loadFromJSON = async (board: PlaitBoard) => {
+export const parseJSON = async (board: PlaitBoard, json: string) => {
+  return loadFromJSON(board, json);
+};
+
+export const parseFile = async (board: PlaitBoard) => {
   const file = await fileOpen({
     description: 'Drawnix files',
     // ToDo: Be over-permissive until https://bugs.webkit.org/show_bug.cgi?id=34442
@@ -35,6 +47,8 @@ export const loadFromJSON = async (board: PlaitBoard) => {
   });
   return loadFromBlob(board, await normalizeFile(file));
 };
+
+
 
 export const isValidDrawnixData = (data?: any): data is DrawnixExportedData => {
   return (

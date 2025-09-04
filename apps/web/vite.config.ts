@@ -6,6 +6,7 @@ import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 export default defineConfig({
   root: __dirname,
   cacheDir: '../../node_modules/.vite/apps/web',
+  base: '/whiteboard/',
 
   server: {
     port: 7200,
@@ -25,7 +26,7 @@ export default defineConfig({
   // },
 
   build: {
-    outDir: '../../dist/apps/web',
+    outDir: '../../dist/whiteboard',
     emptyOutDir: true,
     reportCompressedSize: true,
     commonjsOptions: {

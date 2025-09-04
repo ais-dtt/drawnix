@@ -6,9 +6,14 @@ import { DataURL } from '../types';
 
 export const loadFromBlob = async (board: PlaitBoard, blob: Blob | File) => {
   const contents = await parseFileContents(blob);
+  let data = await loadFromJSON(board, contents);
+  return data;
+};
+
+export const loadFromJSON = async (board: PlaitBoard, json: string) => {
   let data;
   try {
-    data = JSON.parse(contents);
+    data = JSON.parse(json);
     if (isValidDrawnixData(data)) {
       return data;
     }

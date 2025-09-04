@@ -14,7 +14,7 @@ import {
   ThemeColorMode,
   Viewport,
 } from '@plait/core';
-import { loadFromJSON, saveAsJSON } from '../../../data/json';
+import { parseFile, saveAsFile } from '../../../data/json';
 import MenuItem from '../../menu/menu-item';
 import MenuItemLink from '../../menu/menu-item-link';
 import { saveAsImage } from '../../../utils/image';
@@ -33,7 +33,7 @@ export const SaveToFile = () => {
     <MenuItem
       data-testid="save-button"
       onSelect={() => {
-        saveAsJSON(board);
+        saveAsFile(board);
       }}
       icon={SaveFileIcon}
       aria-label={t('menu.saveFile')}
@@ -66,7 +66,7 @@ export const OpenFile = () => {
     <MenuItem
       data-testid="open-button"
       onSelect={() => {
-        loadFromJSON(board).then((data) => {
+        parseFile(board).then((data) => {
           clearAndLoad(data.elements, data.viewport);
         });
       }}
