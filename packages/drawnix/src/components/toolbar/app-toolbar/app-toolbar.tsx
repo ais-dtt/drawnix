@@ -8,6 +8,14 @@ import {
   TrashIcon,
   UndoIcon,
 } from '../../icons';
+
+// Drawings icon for the toolbar
+const DrawingsIcon = () => (
+  <svg viewBox="0 0 16 16" fill="currentColor">
+    <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H4z"/>
+    <path d="M4.5 5.5A.5.5 0 0 1 5 5h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5zM5 7a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1H5zm0 2a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1H5z"/>
+  </svg>
+);
 import classNames from 'classnames';
 import {
   ATTACHED_ELEMENT_CLASS_NAME,
@@ -20,7 +28,6 @@ import { Island } from '../../island';
 import { Popover, PopoverContent, PopoverTrigger } from '../../popover/popover';
 import { useState } from 'react';
 import { CleanBoard, OpenFile, SaveAsImage, SaveToFile, Socials } from './app-menu-items';
-import { DrawingsMenuItem } from './drawings-menu-item';
 import { LanguageSwitcherMenu } from './language-switcher-menu';
 import Menu from '../../menu/menu';
 import MenuSeparator from '../../menu/menu-separator';
@@ -34,10 +41,6 @@ export const AppToolbar = () => {
   const selectedElements = getSelectedElements(board);
   const [appMenuOpen, setAppMenuOpen] = useState(false);
   const { openDrawer } = useDrawingsDrawer();
-  
-  const handleOpenDrawer = () => {
-    openDrawer();
-  };
   const isUndoDisabled = board.history.undos.length <= 0;
   const isRedoDisabled = board.history.redos.length <= 0;
   return (
@@ -77,7 +80,6 @@ export const AppToolbar = () => {
               <OpenFile></OpenFile>
               <SaveToFile></SaveToFile>
               <SaveAsImage></SaveAsImage>
-              <DrawingsMenuItem onOpenDrawer={handleOpenDrawer} />
               <CleanBoard></CleanBoard>
               <MenuSeparator />
               <LanguageSwitcherMenu />
@@ -137,7 +139,6 @@ export const AppToolbar = () => {
             }}
           />
         )}
-        
       </Stack.Row>
     </Island>
   );

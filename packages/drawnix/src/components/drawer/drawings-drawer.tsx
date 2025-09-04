@@ -74,6 +74,9 @@ export const DrawingsDrawer: React.FC<DrawingsDrawerProps> = ({ isOpen, onClose,
   const createNewDrawing = async () => {
     try {
       setError(null);
+      // Clear the board first
+      board.deleteFragment(board.children);
+      
       const currentData = serializeAsJSON(board);
       const newDrawing = await drawingsService.createDrawing(
         `Drawing ${new Date().toLocaleString()}`,
@@ -189,8 +192,8 @@ export const DrawingsDrawer: React.FC<DrawingsDrawerProps> = ({ isOpen, onClose,
   if (!isOpen) return null;
 
   return (
-    <div className="drawings-drawer-overlay">
-      <div className="drawings-drawer">
+    <div className="drawings-drawer-overlay" onClick={onClose}>
+      <div className="drawings-drawer" onClick={(e) => e.stopPropagation()}>
         {/* Header */}
         <div className="drawings-drawer-header">
           <h2>My Drawings</h2>

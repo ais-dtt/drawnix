@@ -23,6 +23,7 @@ function AppContent() {
   const boardRef = useRef<PlaitBoard | null>(null);
 
   useEffect(() => {
+    /*
     const loadData = async () => {
       const storedData = await localforage.getItem(MAIN_BOARD_CONTENT_KEY);
       if (storedData) {
@@ -33,6 +34,9 @@ function AppContent() {
     };
 
     loadData();
+    */
+
+    setValue({ children: [] });
   }, []);
   return (
     <>
@@ -42,7 +46,7 @@ function AppContent() {
         theme={value.theme}
         onChange={(boardData) => {
           if (boardData && typeof boardData === 'object' && 'children' in boardData) {
-            localforage.setItem(MAIN_BOARD_CONTENT_KEY, boardData);
+            // localforage.setItem(MAIN_BOARD_CONTENT_KEY, boardData);
             setValue(boardData);
           }
         }}

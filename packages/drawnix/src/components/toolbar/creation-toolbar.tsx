@@ -14,6 +14,14 @@ import {
   ImageIcon,
   ExtraToolsIcon,
 } from '../icons';
+
+// Drawings icon for the toolbar
+const DrawingsIcon = () => (
+  <svg viewBox="0 0 16 16" fill="currentColor">
+    <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H4z"/>
+    <path d="M4.5 5.5A.5.5 0 0 1 5 5h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5zM5 7a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1H5zm0 2a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1H5z"/>
+  </svg>
+);
 import { useBoard } from '@plait-board/react-board';
 import {
   ATTACHED_ELEMENT_CLASS_NAME,
@@ -40,6 +48,7 @@ import {
   useDrawnix,
   useSetPointer,
 } from '../../hooks/use-drawnix';
+import { useDrawingsDrawer } from '../../hooks/use-drawings-drawer';
 import { ExtraToolsButton } from './extra-tools/extra-tools-button';
 import { addImage } from '../../utils/image';
 import { useI18n } from '../../i18n';
@@ -55,7 +64,7 @@ type AppToolButtonProps = {
   name?: string;
   icon: React.ReactNode;
   pointer?: DrawnixPointerType;
-  key?: PopupKey | 'image' | 'extra-tools';
+  key?: PopupKey | 'image' | 'extra-tools' | 'drawings';
 };
 
 const isBasicPointer = (pointer: string) => {
@@ -113,6 +122,11 @@ export const BUTTONS: AppToolButtonProps[] = [
     titleKey: 'toolbar.extraTools',
     key: 'extra-tools',
   },
+  {
+    icon: <DrawingsIcon />,
+    titleKey: 'toolbar.drawings',
+    key: 'drawings',
+  },
 ];
 
 // TODO provider by plait/draw
@@ -133,6 +147,7 @@ export const CreationToolbar = () => {
   const { t } = useI18n();
   const setPointer = useSetPointer();
   const container = PlaitBoard.getBoardContainer(board);
+  const { openDrawer } = useDrawingsDrawer();
 
   const [freehandOpen, setFreehandOpen] = useState(false);
   const [arrowOpen, setArrowOpen] = useState(false);
@@ -293,6 +308,21 @@ export const CreationToolbar = () => {
           }
           if (button.key === 'extra-tools') {
             return <ExtraToolsButton key={index}></ExtraToolsButton>;
+          }
+          if (button.key === 'drawings') {
+            return (
+              <ToolButton
+                key={index}
+                type="icon"
+                icon={button.icon}
+                visible={true}
+                title={button.titleKey ? t(button.titleKey) : 'My Drawings'}
+                aria-label={button.titleKey ? t(button.titleKey) : 'My Drawings'}
+                onPointerUp={() => {
+                  openDrawer();
+                }}
+              />
+            );
           }
           return (
             <ToolButton
