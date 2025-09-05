@@ -71,19 +71,21 @@ export const DrawingsDrawer: React.FC<DrawingsDrawerProps> = ({ isOpen, onClose,
     }
   };
 
-  const createNewDrawing = async () => {
+  const createNewDrawing = async (clean: boolean = true) => {
     try {
       setError(null);
-      // Clear the board first
-      board.deleteFragment(board.children);
-      
+      // Capture current drawing data
       const currentData = serializeAsJSON(board);
+      
       const newDrawing = await drawingsService.createDrawing(
         `Drawing ${new Date().toLocaleString()}`,
         currentData
       );
       setDrawings(prev => [newDrawing, ...prev]);
       setSelectedDrawingId(newDrawing.id);
+      
+      // Clear the board after saving to start fresh
+      if (clean) board.deleteFragment(board.children);
     } catch (err) {
       setError('Failed to create drawing');
       console.error('Error creating drawing:', err);
@@ -99,6 +101,8 @@ export const DrawingsDrawer: React.FC<DrawingsDrawerProps> = ({ isOpen, onClose,
       setDrawings(prev => prev.filter(d => d.id !== id));
       if (selectedDrawingId === id) {
         setSelectedDrawingId(null);
+        // Clear the board when deleting the currently selected drawing
+        board.deleteFragment(board.children);
       }
     } catch (err) {
       setError('Failed to delete drawing');
@@ -109,11 +113,12 @@ export const DrawingsDrawer: React.FC<DrawingsDrawerProps> = ({ isOpen, onClose,
   const loadDrawing = async (drawing: Drawing) => {
     try {
       setError(null);
+      
       if (drawing.json_data) {
         const jsonString = typeof drawing.json_data === 'string' 
           ? drawing.json_data 
           : JSON.stringify(drawing.json_data);
-        
+        board.deleteFragment(board.children);
         const data = await parseJSON(board, jsonString);
         
         // Clear and load the drawing
@@ -123,6 +128,10 @@ export const DrawingsDrawer: React.FC<DrawingsDrawerProps> = ({ isOpen, onClose,
         
         // Force board update
         BoardTransforms.fitViewport(board);
+        setSelectedDrawingId(drawing.id);
+      } else {
+        // If no json_data or empty data, clear the board
+        board.deleteFragment(board.children);
         setSelectedDrawingId(drawing.id);
       }
     } catch (err) {
@@ -134,7 +143,7 @@ export const DrawingsDrawer: React.FC<DrawingsDrawerProps> = ({ isOpen, onClose,
   const saveCurrentDrawing = async () => {
     if (!selectedDrawingId) {
       // Create new drawing if none selected
-      await createNewDrawing();
+      await createNewDrawing(false);
       return;
     }
 
@@ -213,7 +222,7 @@ export const DrawingsDrawer: React.FC<DrawingsDrawerProps> = ({ isOpen, onClose,
         <div className="drawings-drawer-actions">
           <button 
             className="create-button" 
-            onClick={createNewDrawing}
+            onClick={() => createNewDrawing()}
             disabled={loading}
           >
             <PlusIcon />
